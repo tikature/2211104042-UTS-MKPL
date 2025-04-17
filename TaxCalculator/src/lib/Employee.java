@@ -17,17 +17,40 @@ public class Employee {
 	private int monthWorkingInYear;
 	
 	private boolean isForeigner;
-	private boolean gender; //true = Laki-laki, false = Perempuan
+	private Gender gender;
 	
 	private int monthlySalary;
 	private int otherMonthlyIncome;
 	private int annualDeductible;
 	
-	private String spouseName;
+	private Spouse spouse;
 	private String spouseIdNumber;
 
-	private List<String> childNames;
-	private List<String> childIdNumbers;
+	private List<Child> children = new LinkedList<>();
+
+	public enum Gender {
+		MALE, FEMALE
+	}
+	
+	private static class Spouse {
+		String name;
+		String idNumber;
+	
+		Spouse(String name, String idNumber) {
+			this.name = name;
+			this.idNumber = idNumber;
+		}
+	}
+	
+	private static class Child {
+		String name;
+		String idNumber;
+	
+		Child(String name, String idNumber) {
+			this.name = name;
+			this.idNumber = idNumber;
+		}
+	}
 	
 	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
 		this.employeeId = employeeId;
@@ -74,9 +97,8 @@ public class Employee {
 		this.spouseIdNumber = idNumber;
 	}
 	
-	public void addChild(String childName, String childIdNumber) {
-		childNames.add(childName);
-		childIdNumbers.add(childIdNumber);
+	public void addChild(String name, String idNumber) {
+		this.children.add(new Child(name, idNumber));
 	}
 	
 	public int getAnnualIncomeTax() {
