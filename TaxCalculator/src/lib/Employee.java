@@ -13,9 +13,7 @@ public class Employee {
 	private String idNumber;
 	private String address;
 	
-	private int yearJoined;
-	private int monthJoined;
-	private int dayJoined;
+	private LocalDate joinDate;
 	private int monthWorkingInYear;
 	
 	private boolean isForeigner;
@@ -52,23 +50,15 @@ public class Employee {
 	 * Jika pegawai adalah warga negara asing gaji bulanan diperbesar sebanyak 50%
 	 */
 	
-	public void setMonthlySalary(int grade) {	
-		if (grade == 1) {
-			monthlySalary = 3000000;
-			if (isForeigner) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}else if (grade == 2) {
-			monthlySalary = 5000000;
-			if (isForeigner) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}else if (grade == 3) {
-			monthlySalary = 7000000;
-			if (isForeigner) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
+	 public void setMonthlySalary(int grade) {
+		int baseSalary;
+		switch (grade) {
+			case 1: baseSalary = 3000000; break;
+			case 2: baseSalary = 5000000; break;
+			case 3: baseSalary = 7000000; break;
+			default: baseSalary = 0; break;
 		}
+		this.monthlySalary = isForeigner ? (int) (baseSalary * 1.5) : baseSalary;
 	}
 	
 	public void setAnnualDeductible(int deductible) {	
