@@ -88,9 +88,8 @@ public class Employee {
 		this.otherMonthlyIncome = income;
 	}
 	
-	public void setSpouse(String spouseName, String spouseIdNumber) {
-		this.spouseName = spouseName;
-		this.spouseIdNumber = idNumber;
+	public void setSpouse(String name, String idNumber) {
+		this.spouse = new Spouse(name, idNumber);
 	}
 	
 	public void addChild(String name, String idNumber) {
