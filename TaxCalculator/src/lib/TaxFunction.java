@@ -15,30 +15,28 @@ public class TaxFunction {
 	 */
 	
 	
-	public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, boolean isMarried, int numberOfChildren) {
-		
-		int tax = 0;
-		
-		if (numberOfMonthWorking > 12) {
-			System.err.println("More than 12 month working per year");
-		}
-		
-		if (numberOfChildren > 3) {
-			numberOfChildren = 3;
-		}
-		
-		if (isMarried) {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (54000000 + 4500000 + (numberOfChildren * 1500000))));
-		}else {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - 54000000));
-		}
-		
-		if (tax < 0) {
-			return 0;
-		}else {
-			return tax;
-		}
-			 
-	}
+	 private static final int BASIC_NON_TAXABLE = 54000000;
+	 private static final int MARRIED_ADDITION = 4500000;
+	 private static final int CHILD_ADDITION = 4500000;
+	 private static final double TAX_RATE = 0.05;
+	 private static final int MAX_CHILDREN = 3;
+ 
+	 public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int monthsWorked,
+		 int deductible, boolean isMarried, int numberOfChildren) {
+ 
+		 if (monthsWorked > 12) {
+			 throw new IllegalArgumentException("Work months cannot exceed 12");
+		 }
+ 
+		 numberOfChildren = Math.min(numberOfChildren, MAX_CHILDREN);
+ 
+		 int annualIncome = (monthlySalary + otherMonthlyIncome) * monthsWorked;
+		 int nonTaxableIncome = BASIC_NON_TAXABLE
+				 + (isMarried ? MARRIED_ADDITION : 0)
+				 + (CHILD_ADDITION * numberOfChildren);
+ 
+		 int taxableIncome = annualIncome - deductible - nonTaxableIncome;
+		 return Math.max(0, (int) Math.round(TAX_RATE * taxableIncome));
+	 }
 	
 }
